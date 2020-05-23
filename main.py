@@ -1,17 +1,27 @@
+# Import libraries
 import pygame
 import time
 import random
 import os
-pygame.display.init()
+
+# Initializations
 pygame.font.init()
 pygame.mixer.init()
 
+# Set constants
 GROUND = 700 - 55
 WIDTH, HEIGHT = 1333, 750
+
+# Define window
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Farty Bird")
+
+# Allocate specific mixer channel for player fart sfx
+# Prevents overlap of player sounds
 player_sfx_channel = pygame.mixer.Channel(0)
 player_sfx_channel.set_volume(.8)
+
+# Define custom pygame event to handle endgame
 GAME_OVER = pygame.USEREVENT + 1
 
 # Load Images
@@ -88,14 +98,15 @@ DEAD_BIRD = pygame.image.load(os.path.join("assets/images", "death.png"))
 FINGER_PIC = pygame.image.load(os.path.join("assets/images","finger.gif"))
 
 # Load Audio Fx
-FART_FX = [
+HIGH_FART_FX = [
     pygame.mixer.Sound(os.path.join("assets/audio/sfx","fart_1.wav")),
+    pygame.mixer.Sound(os.path.join("assets/audio/sfx","fart_3.wav"))
+    ]
+LOW_FART_FX = [
     pygame.mixer.Sound(os.path.join("assets/audio/sfx","fart_2.wav")),
-    pygame.mixer.Sound(os.path.join("assets/audio/sfx","fart_3.wav")),
     pygame.mixer.Sound(os.path.join("assets/audio/sfx","fart_4.wav")),
     pygame.mixer.Sound(os.path.join("assets/audio/sfx","fart_5.wav")),
     ]
-    
 SHOOT_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","shoot.wav"))
 FINGER_HIT_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","finger_hit.wav"))
 BUTTFLY_HIT_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","buttfly_hit.wav"))
@@ -104,7 +115,7 @@ BUTT_BUZZ_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","buzz.wav"))
 POWERUP_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","powerup.wav"))
 POWERUP_FX.set_volume(.3)
 
-class Bullet:
+class Bullet: #Handles animation of bullets
     def __init__(self, x, y, vel = 10, bullet_images = BULLET, img_counter = 0):
         self.x = x
         self.y = y
@@ -124,7 +135,30 @@ class Bullet:
         self.img_counter += 1
         if self.img_counter == 22:
             self.img_counter = 0
+
+class ScoreNotifcation:
+    def __init__(self, x, y, ydelta, vel = 3, alpha = 255):
+        self.x = x
+        self.ydelta = ydelta
+        self.y = y
+        self.vel = vel
+        self.alpha = alpha
+        self.font = pygame.font.SysFont("connectionserif", 25)
+        self.text = None
+        self.surface = None
         
+    def update(self, player_y):
+        self.ydelta -= self.vel
+        self.y = player_y + self.ydelta
+        self.alpha -= 10
+        if self.alpha < 0:
+            self.alpha = 0
+        
+    def draw(self, window):
+        self.surface = self.font.render("+1", 1, (255,255,255))
+        self.surface.set_alpha(self.alpha)
+        window.blit(self.surface, (self.x, self.y))
+
 class PowerUp:
     def __init__(self, x, y, starty, up_down, playing_audio = False, available_images = POWERUP_AVIALABLE, collide_images = POWERUP_COLLIDE, speed = 3, collide = False, img_timer=0):
         self.x = x
@@ -607,7 +641,12 @@ def kill_all_sfx(buttflys, powerups):
     for powerup in powerups:
         if powerup.playing_audio == True:
             powerup.kill_audio() 
-        
+
+def spawn_score(score_notifications, player):
+    new_score = ScoreNotifcation(WIDTH/2, player.y, -5)
+    score_notifications.append(new_score)
+    return score_notifications
+
 def main():
 
     level = 0
@@ -624,6 +663,7 @@ def main():
     bullets = []
     butt_flys = []
     play_endgame = False
+    score_notifications = []
     
     lost_font = pygame.font.SysFont("connectionserif", 40)
     level_font = pygame.font.SysFont("connectionserif", 70)
@@ -662,6 +702,10 @@ def main():
         player.update_v()
         player.draw(WIN)
         
+        for notification in score_notifications:
+            notification.update(player.y)
+            notification.draw(WIN)
+        
         if level_timer > 0:
             new_level = False
             level_timer -= 1
@@ -699,6 +743,10 @@ def main():
             
         for bullet in bullets:
             bullet.draw(WIN)
+            
+        for notification in score_notifications:
+            notification.update(player.y)
+            notification.draw(WIN)
         
         score_label = score_font.render("Score: ", 1 , (255,255,255))
         score_value = score_font.render(str(score), 1, (255,255,255))
@@ -745,6 +793,7 @@ def main():
                 if enemy.x + enemy.get_width() < player.x:
                     enemy.scored = True
                     score += 1
+                    score_notifications = spawn_score(score_notifications[:],player)
                 
             if collide(enemy, player):
                 if lost == False:
@@ -795,6 +844,10 @@ def main():
                     RELOAD_FX.play()
                     powerup.collide = True
                     player.bullets += 2
+                    
+        for notification in score_notifications[:]:
+            if notification.alpha == 0:
+                score_notifications.remove(notification)
         
         if powerup_timer > 0:
             powerup_timer -= 1
@@ -819,8 +872,12 @@ def main():
         if keys[pygame.K_UP] and lost == False:
             player.state="flying"
             if player_sfx_channel.get_busy() == False and fart_timer==0:
-                player_sfx_channel.play(FART_FX[random.randint(0,4)])
-                fart_timer=random.randint(60,120)
+                if player.y > 350:
+                    player_sfx_channel.play(LOW_FART_FX[random.randint(0,2)])
+                    fart_timer=random.randint(60,120)
+                else:
+                    player_sfx_channel.play(HIGH_FART_FX[random.randint(0,1)])
+                    fart_timer=random.randint(60,120)
             if fart_timer > 0:
                 fart_timer -= 1
         elif keys[pygame.K_q]:
