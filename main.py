@@ -94,6 +94,14 @@ STATIC_BIRD = pygame.image.load(os.path.join("assets/images","static.gif")).conv
 DEAD_BIRD = pygame.image.load(os.path.join("assets/images", "death.png")).convert_alpha()
 FINGER_PIC = pygame.image.load(os.path.join("assets/images","finger.gif")).convert_alpha()
 
+# Particle Color Options
+FARTICLE_COLORS = [
+    ((230,230,230)),
+    ((179,179,179)),
+    ((194,214,214)),
+    ((128,128,128))
+]
+
 # Load Audio Fx
 HIGH_FART_FX = [
     pygame.mixer.Sound(os.path.join("assets/audio/sfx","fart_1.wav")),
@@ -145,7 +153,23 @@ class GameObject: # GameCharacter superclass
         
     def get_height(self):
         return self.image.get_height()
-    
+
+class Farticle():
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.x_velocity = random.randint(0, 40) / 10 - 4
+        self.y_velocity = random.randint(-5, 20) / 10
+        self.timer = int(random.randint(2,7))
+        self.color = random.choice(FARTICLE_COLORS)
+        
+    def update(self):
+        self.x, self.y = (int(self.x + self.x_velocity), int(self.y + self.y_velocity))
+        self.timer -= 0.05
+        
+    def draw(self,window):
+        pygame.draw.rect(window, self.color, (self.x, self.y, int(self.timer), int(self.timer)))
+        
 class Bullet(GameObject):
     def __init__(self, x, y):
         super().__init__(x, y)
@@ -267,7 +291,7 @@ class Player(GameObject):
         new_bullet.update()
         bullets.append(new_bullet)
         
-    def update(self):
+    def update(self, farticles):
         if self.cooldown > 0: self.cooldown -= 1
         
         if self.state == "flying":
@@ -290,6 +314,12 @@ class Player(GameObject):
             # calc y value
             if (self.y - self.velocity) > 10: self.y -= self.velocity
             else: self.y = 10 # lower limit (top of screen)
+            
+            # create farticles
+            new_farticle1 = Farticle(self.x + 10, self.y + self.get_height() - 25)
+            new_farticle2 = Farticle(self.x + 10, self.y + self.get_height() - 25)
+            farticles.append(new_farticle1)
+            farticles.append(new_farticle2)
             
         elif self.state == "static":
             # set image
@@ -550,6 +580,7 @@ def main():
     play_endgame = False
     score_notifications = []
     player_sfx_channel = None
+    farticles = []
     
     lost_font = pygame.font.SysFont("connectionserif", 40)
     level_font = pygame.font.SysFont("connectionserif", 70)
@@ -583,7 +614,12 @@ def main():
             bullet.update()
             bullet.draw(WIN)
         
-        player.update()
+        for farticle in farticles[:]:
+            if farticle.timer <= 0: farticles.remove(farticle)
+            farticle.update()
+            farticle.draw(WIN)
+        
+        player.update(farticles)
         player.draw(WIN)
         
         for notification in score_notifications:
@@ -647,7 +683,12 @@ def main():
         lost_label = lost_font.render("...and lost", 1 , (255,255,255))
         WIN.blit(lost_label,(WIDTH/2 - lost_label.get_width()/2, HEIGHT/2 + 5))
         
-        player.update()
+        for farticle in farticles[:]:
+            if farticle.timer <= 0: farticles.remove(farticle)
+            farticle.update()
+            farticle.draw(WIN)
+        
+        player.update(farticles)
         player.draw(WIN)
         
         pygame.display.update()
