@@ -23,76 +23,76 @@ GAME_OVER = pygame.USEREVENT + 1
 
 # Load Images
 POWERUP_AVIALABLE = [
-    pygame.image.load(os.path.join("assets/images/powerup/available","powerupa1.png")),
-    pygame.image.load(os.path.join("assets/images/powerup/available","powerupa2.png")),
-    pygame.image.load(os.path.join("assets/images/powerup/available","powerupa3.png")),
-    pygame.image.load(os.path.join("assets/images/powerup/available","powerupa4.png")),
-    pygame.image.load(os.path.join("assets/images/powerup/available","powerupa5.png")),
-    pygame.image.load(os.path.join("assets/images/powerup/available","powerupa6.png"))
+    pygame.image.load(os.path.join("assets/images/powerup/available","powerupa1.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/powerup/available","powerupa2.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/powerup/available","powerupa3.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/powerup/available","powerupa4.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/powerup/available","powerupa5.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/powerup/available","powerupa6.png")).convert_alpha()
 ]
 POWERUP_COLLIDE = [
-    pygame.image.load(os.path.join("assets/images/powerup/collide","powerupb1.png")),
-    pygame.image.load(os.path.join("assets/images/powerup/collide","powerupb2.png")),
-    pygame.image.load(os.path.join("assets/images/powerup/collide","powerupb3.png")),
-    pygame.image.load(os.path.join("assets/images/powerup/collide","powerupb4.png")),
-    pygame.image.load(os.path.join("assets/images/powerup/collide","powerupb5.png"))
+    pygame.image.load(os.path.join("assets/images/powerup/collide","powerupb1.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/powerup/collide","powerupb2.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/powerup/collide","powerupb3.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/powerup/collide","powerupb4.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/powerup/collide","powerupb5.png")).convert_alpha()
 ]
 BUTT_FLY_ALIVE = [
-    pygame.image.load(os.path.join("assets/images/butt_fly","static.png")),
-    pygame.image.load(os.path.join("assets/images/butt_fly","flap1.png")),
-    pygame.image.load(os.path.join("assets/images/butt_fly","flap2.png")),
-    pygame.image.load(os.path.join("assets/images/butt_fly","flap3.png")),
-    pygame.image.load(os.path.join("assets/images/butt_fly","flap4.png")),
-    pygame.image.load(os.path.join("assets/images/butt_fly","flap5.png")),
-    pygame.image.load(os.path.join("assets/images/butt_fly","flap6.png")),
-    pygame.image.load(os.path.join("assets/images/butt_fly","flap7.png"))
+    pygame.image.load(os.path.join("assets/images/butt_fly","static.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/butt_fly","flap1.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/butt_fly","flap2.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/butt_fly","flap3.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/butt_fly","flap4.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/butt_fly","flap5.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/butt_fly","flap6.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/butt_fly","flap7.png")).convert_alpha()
 ]
 BUTT_FLY_DEAD = [
-    pygame.image.load(os.path.join("assets/images/butt_fly","death1.png")),
-    pygame.image.load(os.path.join("assets/images/butt_fly","death2.png")),
-    pygame.image.load(os.path.join("assets/images/butt_fly","death3.png")),
-    pygame.image.load(os.path.join("assets/images/butt_fly","death4.png")),
-    pygame.image.load(os.path.join("assets/images/butt_fly","death5.png")),
-    pygame.image.load(os.path.join("assets/images/butt_fly","death6.png")),
-    pygame.image.load(os.path.join("assets/images/butt_fly","death7.png")),
-    pygame.image.load(os.path.join("assets/images/butt_fly","death8.png")),
-    pygame.image.load(os.path.join("assets/images/butt_fly","death9.png")),
-    pygame.image.load(os.path.join("assets/images/butt_fly","death10.png"))
+    pygame.image.load(os.path.join("assets/images/butt_fly","death1.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/butt_fly","death2.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/butt_fly","death3.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/butt_fly","death4.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/butt_fly","death5.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/butt_fly","death6.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/butt_fly","death7.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/butt_fly","death8.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/butt_fly","death9.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/butt_fly","death10.png")).convert_alpha()
 ]
 BULLET = [
-    pygame.image.load(os.path.join("assets/images/bullet","bullet1.png")),
-    pygame.image.load(os.path.join("assets/images/bullet","bullet2.png")),
-    pygame.image.load(os.path.join("assets/images/bullet","bullet3.png")),
-    pygame.image.load(os.path.join("assets/images/bullet","bullet4.png")),
-    pygame.image.load(os.path.join("assets/images/bullet","bullet5.png")),
-    pygame.image.load(os.path.join("assets/images/bullet","bullet6.png")),
-    pygame.image.load(os.path.join("assets/images/bullet","bullet7.png")),
-    pygame.image.load(os.path.join("assets/images/bullet","bullet8.png"))
+    pygame.image.load(os.path.join("assets/images/bullet","bullet1.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/bullet","bullet2.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/bullet","bullet3.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/bullet","bullet4.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/bullet","bullet5.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/bullet","bullet6.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/bullet","bullet7.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/bullet","bullet8.png")).convert_alpha()
 ]
 FLAPPING_BIRD = [
-    pygame.image.load(os.path.join("assets/images","flap_1.gif")),
-    pygame.image.load(os.path.join("assets/images","flap_2.gif")),
-    pygame.image.load(os.path.join("assets/images","flap_3.gif")),
-    pygame.image.load(os.path.join("assets/images","flap_4.gif")),
-    pygame.image.load(os.path.join("assets/images","flap_5.gif")),
-    pygame.image.load(os.path.join("assets/images","flap_6.gif")),
-    pygame.image.load(os.path.join("assets/images","flap_7.gif"))
+    pygame.image.load(os.path.join("assets/images","flap_1.gif")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images","flap_2.gif")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images","flap_3.gif")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images","flap_4.gif")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images","flap_5.gif")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images","flap_6.gif")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images","flap_7.gif")).convert_alpha()
     ]
 INTRO_FOG_ANIMATE = [
-    pygame.image.load(os.path.join("assets/images/intro","fog_animate1.png")),
-    pygame.image.load(os.path.join("assets/images/intro","fog_animate2.png")),
-    pygame.image.load(os.path.join("assets/images/intro","fog_animate3.png"))
+    pygame.image.load(os.path.join("assets/images/intro","fog_animate1.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/intro","fog_animate2.png")).convert_alpha(),
+    pygame.image.load(os.path.join("assets/images/intro","fog_animate3.png")).convert_alpha()
 ]
-INTRO_FOG = pygame.image.load(os.path.join("assets/images/intro","fog.png"))
-INTRO_BIRD = pygame.image.load(os.path.join("assets/images/intro","bird.png"))
-INTRO_RAYS = pygame.image.load(os.path.join("assets/images/intro","rays.png"))
-INTRO_TITLE = pygame.image.load(os.path.join("assets/images/intro","title.png"))
-BG = pygame.image.load(os.path.join("assets/images","bg_3.png"))
-BG_MID = pygame.image.load(os.path.join("assets/images","bg_2.png"))
-BG_TOP = pygame.image.load(os.path.join("assets/images","bg_1.gif"))
-STATIC_BIRD = pygame.image.load(os.path.join("assets/images","static.gif"))
-DEAD_BIRD = pygame.image.load(os.path.join("assets/images", "death.png"))
-FINGER_PIC = pygame.image.load(os.path.join("assets/images","finger.gif"))
+INTRO_FOG = pygame.image.load(os.path.join("assets/images/intro","fog.png")).convert_alpha()
+INTRO_BIRD = pygame.image.load(os.path.join("assets/images/intro","bird.png")).convert_alpha()
+INTRO_RAYS = pygame.image.load(os.path.join("assets/images/intro","rays.png")).convert_alpha()
+INTRO_TITLE = pygame.image.load(os.path.join("assets/images/intro","title.png")).convert_alpha()
+BG = pygame.image.load(os.path.join("assets/images","bg_3.png")).convert()
+BG_MID = pygame.image.load(os.path.join("assets/images","bg_2.png")).convert_alpha()
+BG_TOP = pygame.image.load(os.path.join("assets/images","bg_1.gif")).convert_alpha()
+STATIC_BIRD = pygame.image.load(os.path.join("assets/images","static.gif")).convert_alpha()
+DEAD_BIRD = pygame.image.load(os.path.join("assets/images", "death.png")).convert_alpha()
+FINGER_PIC = pygame.image.load(os.path.join("assets/images","finger.gif")).convert_alpha()
 
 # Load Audio Fx
 HIGH_FART_FX = [
@@ -339,7 +339,7 @@ class Finger(GameObject):
         
     def update(self):
         self.x -= (self.velocity * GAME_SPEED)
-        if self.x > WIDTH or (self.x - self.get_width()) < 0: self.draw_this_object = False
+        if self.x > WIDTH or (self.x + self.get_width()) < 0: self.draw_this_object = False
         else: self.draw_this_object = True
         
         if self.direction == "up":
@@ -364,7 +364,7 @@ class Intro_Animation: # Handles startup / menu animation sequence
         self.rays_up_down = "down"
         self.draw_title = draw_title
         self.draw_rays = draw_rays
-        self.TITLE_IMG = INTRO_TITLE.convert()
+        self.TITLE_IMG = INTRO_TITLE
         self.title_rect = self.TITLE_IMG.get_rect()
         self.title_alpha = title_alpha
         self.title_in_out = None
