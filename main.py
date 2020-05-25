@@ -101,6 +101,12 @@ FARTICLE_COLORS = [
     ((194,214,214)),
     ((128,128,128))
 ]
+POOP_COLORS = [
+    ((102,51,0)),
+    ((204,153,0)),
+    ((153,102,0)),
+    ((153,102,51))
+]
 
 # Load Audio Fx
 HIGH_FART_FX = [
@@ -155,13 +161,13 @@ class GameObject: # GameCharacter superclass
         return self.image.get_height()
 
 class Farticle():
-    def __init__(self, x, y):
+    def __init__(self, x, y, x_velocity, y_velocity, timer, color):
         self.x = x
         self.y = y
-        self.x_velocity = random.randint(0, 40) / 10 - 4
-        self.y_velocity = random.randint(-5, 20) / 10
-        self.timer = int(random.randint(2,7))
-        self.color = random.choice(FARTICLE_COLORS)
+        self.x_velocity = x_velocity
+        self.y_velocity = y_velocity
+        self.timer = timer
+        self.color = color
         
     def update(self):
         self.x, self.y = (int(self.x + self.x_velocity), int(self.y + self.y_velocity))
@@ -238,10 +244,13 @@ class ButtFly(GameObject):
         self.SFX = BUTT_BUZZ_FX
         self.collisionSFX = BUTTFLY_HIT_FX
         
-    def update(self):
+    def update(self, farticles):
         
         if self.collision:
             self.health = 0
+            
+            new_farticle = Farticle(self.x + 5, self.y + self.get_height()/2, random.randint(0, 40)/10 - 2, random.randint(0,40)/10 - 2, int(random.randint(2,5)),random.choice(POOP_COLORS))
+            farticles.append(new_farticle)
         
         if self.direction == "up" and self.collision == False:
             self.y, self.direction = (self.y - 2,"up") if self.y > 150 else (self.y + 2, "down")
@@ -316,8 +325,8 @@ class Player(GameObject):
             else: self.y = 10 # lower limit (top of screen)
             
             # create farticles
-            new_farticle1 = Farticle(self.x + 10, self.y + self.get_height() - 25)
-            new_farticle2 = Farticle(self.x + 10, self.y + self.get_height() - 25)
+            new_farticle1 = Farticle(self.x + 10, self.y + self.get_height() - 25, random.randint(0, 40) / 10 - 4, random.randint(-5, 20) / 10, int(random.randint(2,7)), random.choice(FARTICLE_COLORS))
+            new_farticle2 = Farticle(self.x + 10, self.y + self.get_height() - 25, random.randint(0, 40) / 10 - 4, random.randint(-5, 20) / 10, int(random.randint(2,7)), random.choice(FARTICLE_COLORS))
             farticles.append(new_farticle1)
             farticles.append(new_farticle2)
             
@@ -603,7 +612,7 @@ def main():
             finger.draw(WIN)
          
         for butt_fly in butt_flys:
-            butt_fly.update()
+            butt_fly.update(farticles)
             butt_fly.draw(WIN)
         
         for powerup in powerups:
