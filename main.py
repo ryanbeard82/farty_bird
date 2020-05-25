@@ -249,8 +249,9 @@ class ButtFly(GameObject):
         if self.collision:
             self.health = 0
             
-            new_farticle = Farticle(self.x + 5, self.y + self.get_height()/2, random.randint(0, 40)/10 - 2, random.randint(0,40)/10 - 2, int(random.randint(2,5)),random.choice(POOP_COLORS))
-            farticles.append(new_farticle)
+            if self.image_counter < 46:
+                new_farticle = Farticle(self.x + 5, self.y + self.get_height()/2, random.randint(0, 40)/10 - 2, random.randint(0,40)/10 - 2, int(random.randint(2,5)),random.choice(POOP_COLORS))
+                farticles.append(new_farticle)
         
         if self.direction == "up" and self.collision == False:
             self.y, self.direction = (self.y - 2,"up") if self.y > 150 else (self.y + 2, "down")
