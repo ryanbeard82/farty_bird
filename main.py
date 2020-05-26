@@ -244,14 +244,13 @@ class PowerUp(GameObject):
 class TurdStreaker(GameObject):
     def __init__(self, x, y):
         super().__init__(x, y)
-        self.velocity = 3
+        self.velocity = 2
         self.SFX = TURD_WEE_FX
         self.collisionSFX = TURD_HIT_FX
         self.center_y = None
         self.center_x = None
         self.angle = 0
         self.radius = 200
-        self.collisionSFX = None
         self.image = TURD_STREAKER_PIC
         self.mask = pygame.mask.from_surface(self.image)
         
@@ -264,7 +263,7 @@ class TurdStreaker(GameObject):
             self.x = self.radius * math.sin(self.angle) + self.center_x
             self.y = self.radius * math.cos(self.angle) + self.center_y
             
-            self.angle -= .025
+            self.angle -= .02
             self.center_x -= self.velocity
             
             new_farticle = Farticle(self.x + self.get_width()/2, self.y + self.get_height()/2, random.randint(0, 40)/10 - 2, random.randint(0,40)/10 - 2, int(random.randint(1,3)),random.choice(POOP_COLORS))
@@ -277,10 +276,11 @@ class TurdStreaker(GameObject):
             self.image_counter += 1
             
             if self.image_counter<=30:
+                self.image = pygame.transform.scale(TURD_STREAKER_PIC,(self.get_width()+ 1, self.get_height()+ 1))
                 self.x -= self.velocity
             elif self.image_counter < 60:
                 self.draw_this_object = False
-                new_farticle = Farticle(self.x + self.get_width()/2, self.y + self.get_height()/2, random.randint(0, 40)/10 - 2, random.randint(0,40)/10 - 2, int(random.randint(3,6)),random.choice(POOP_COLORS))
+                new_farticle = Farticle(self.x + self.get_width()/2, self.y + self.get_height()/2, random.randint(0, 40)/10 - 2, random.randint(0,40)/10 - 2, int(random.randint(5,15)),random.choice(POOP_COLORS))
                 farticles.append(new_farticle)
             
         
@@ -801,7 +801,7 @@ def main():
                     finger.collision = True
         
         for turd in turd_streakers[:]:
-            if turd.x <= 0 - turd.get_width() - 100 or (turd.collision == True and turd.image_timer > 60):
+            if turd.x <= 0 - turd.get_width() - 100 or (turd.collision == True and turd.image_counter > 60):
                 turd.kill_audio()
                 turd_streakers.remove(turd)
                 
@@ -867,7 +867,7 @@ def main():
         fingers = spawn_fingers(fingers[:])
         
         if level > 1: spawn_butt_flys(butt_flys)
-        if level > 0: spawn_turdstreaker(turd_streakers)
+        if level > 2: spawn_turdstreaker(turd_streakers)
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_UP] and lost == False:
