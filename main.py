@@ -3,6 +3,7 @@ import pygame
 import time
 import random
 import os
+import math
 
 # Initializations
 pygame.font.init()
@@ -93,6 +94,7 @@ BG_TOP = pygame.image.load(os.path.join("assets/images","bg_1.gif")).convert_alp
 STATIC_BIRD = pygame.image.load(os.path.join("assets/images","static.gif")).convert_alpha()
 DEAD_BIRD = pygame.image.load(os.path.join("assets/images", "death.png")).convert_alpha()
 FINGER_PIC = pygame.image.load(os.path.join("assets/images","finger.gif")).convert_alpha()
+TURD_STREAKER_PIC = pygame.image.load(os.path.join("assets/images","turd_streaker.png")).convert_alpha()
 
 # Particle Color Options
 FARTICLE_COLORS = [
@@ -125,6 +127,8 @@ RELOAD_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","reload.wav"))
 BUTT_BUZZ_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","buzz.wav"))
 POWERUP_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","powerup.wav"))
 POWERUP_FX.set_volume(.3)
+TURD_HIT_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","turd_pop.wav"))
+TURD_WEE_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","turd_wee.wav"))
 
 class GameObject: # GameCharacter superclass
     def __init__(self, x, y, health = 100, angle = 0, collision = False, direction = "up", image_counter = 0, playing_audio = False, draw_this_object = True):
@@ -237,6 +241,49 @@ class PowerUp(GameObject):
              self.playing_audio = True
              self.SFX.play(-1).set_volume(.5)
 
+class TurdStreaker(GameObject):
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        self.velocity = 3
+        self.SFX = TURD_WEE_FX
+        self.collisionSFX = TURD_HIT_FX
+        self.center_y = None
+        self.center_x = None
+        self.angle = 0
+        self.radius = 200
+        self.collisionSFX = None
+        self.image = TURD_STREAKER_PIC
+        self.mask = pygame.mask.from_surface(self.image)
+        
+    def update(self, farticles):
+        if self.collision == False:
+            if self.playing_audio == False and self.x < WIDTH:
+                self.playing_audio = True
+                self.SFX.play(-1)
+                
+            self.x = self.radius * math.sin(self.angle) + self.center_x
+            self.y = self.radius * math.cos(self.angle) + self.center_y
+            
+            self.angle -= .025
+            self.center_x -= self.velocity
+            
+            new_farticle = Farticle(self.x + self.get_width()/2, self.y + self.get_height()/2, random.randint(0, 40)/10 - 2, random.randint(0,40)/10 - 2, int(random.randint(1,3)),random.choice(POOP_COLORS))
+            farticles.append(new_farticle)
+            
+        else:
+            
+            self.SFX.stop()
+            self.playing_audio = False
+            self.image_counter += 1
+            
+            if self.image_counter<=30:
+                self.x -= self.velocity
+            elif self.image_counter < 60:
+                self.draw_this_object = False
+                new_farticle = Farticle(self.x + self.get_width()/2, self.y + self.get_height()/2, random.randint(0, 40)/10 - 2, random.randint(0,40)/10 - 2, int(random.randint(3,6)),random.choice(POOP_COLORS))
+                farticles.append(new_farticle)
+            
+        
 class ButtFly(GameObject):
     def __init__(self, x, y):
         super().__init__(x, y)
@@ -283,7 +330,7 @@ class Player(GameObject):
     VELOCITY_MULT = 1.03
     FALL_MULT = .05
     
-    def __init__(self, x, y, state="static", powerup = False, bullets = 0, cooldown = 0):
+    def __init__(self, x, y, state="static", powerup = False, bullets = 0, cooldown = 0): #TESTING BULLETS
         super().__init__(x, y)
         self.powerup = powerup
         self.bullets = bullets
@@ -326,8 +373,8 @@ class Player(GameObject):
             else: self.y = 10 # lower limit (top of screen)
             
             # create farticles
-            new_farticle1 = Farticle(self.x + 10, self.y + self.get_height() - 25, random.randint(0, 40) / 10 - 4, random.randint(-5, 20) / 10, int(random.randint(2,7)), random.choice(FARTICLE_COLORS))
-            new_farticle2 = Farticle(self.x + 10, self.y + self.get_height() - 25, random.randint(0, 40) / 10 - 4, random.randint(-5, 20) / 10, int(random.randint(2,7)), random.choice(FARTICLE_COLORS))
+            new_farticle1 = Farticle(self.x + 10, self.y + self.get_height() - 25, random.randint(-20, 40) / 10 - 4, random.randint(-5, 30) / 10, int(random.randint(2,7)), random.choice(FARTICLE_COLORS))
+            new_farticle2 = Farticle(self.x + 10, self.y + self.get_height() - 25, random.randint(-20, 40) / 10 - 4, random.randint(-5, 30) / 10, int(random.randint(2,7)), random.choice(FARTICLE_COLORS))
             farticles.append(new_farticle1)
             farticles.append(new_farticle2)
             
@@ -530,8 +577,6 @@ def spawn_butt_flys(butt_fly_list): # spawns a single butt-fly at a time
     if len(butt_fly_list)==0:
         new_butt_fly = ButtFly(random.randint(1500,5000),300)
         butt_fly_list.append(new_butt_fly)
-        
-    return butt_fly_list
 
 def spawn_powerup(powerup_list, finger_list, powerup_timer): # random chance to spawn a single powerup after the power-up timer expires
     if len(powerup_list)==0 and random.randint(0, 300) == 100:
@@ -554,11 +599,13 @@ def spawn_powerup(powerup_list, finger_list, powerup_timer): # random chance to 
             
     return powerup_timer
     
-def kill_all_sfx(buttflys, powerups): # kills all repeating SFX (butt-fly and powerup)
+def kill_all_sfx(buttflys, powerups, turd_streakers): # kills all repeating SFX (butt-fly and powerup)
     for butt in buttflys:
         if butt.playing_audio == True: butt.kill_audio()
     for powerup in powerups:
-        if powerup.playing_audio == True: powerup.kill_audio() 
+        if powerup.playing_audio == True: powerup.kill_audio()
+    for turd in turd_streakers:
+        if turd.playing_audio == True: turd.kill_audio()
 
 def spawn_score(score_notifications, player): # shows floating score indicator
     new_score = ScoreNotifcation(WIDTH/2, player.y)
@@ -571,7 +618,15 @@ def play_endgame_music(): #initiates endgame music
     pygame.mixer.music.load(os.path.join("assets/audio/music","game_over.wav"))
     pygame.mixer.music.play()
     pygame.mixer.music.set_endevent(GAME_OVER)
-    
+
+def spawn_turdstreaker(turd_streakers):
+    if len(turd_streakers)==0:
+        new_turd = TurdStreaker(random.randint(1500,5000), 350)
+        new_turd.y = (HEIGHT/2 - new_turd.get_height()/2 - 50)
+        new_turd.center_y = new_turd.y
+        new_turd.center_x = new_turd.x
+        turd_streakers.append(new_turd)
+
 def main():
     
     global GAME_SPEED
@@ -591,6 +646,7 @@ def main():
     score_notifications = []
     player_sfx_channel = None
     farticles = []
+    turd_streakers = []
     
     lost_font = pygame.font.SysFont("connectionserif", 40)
     level_font = pygame.font.SysFont("connectionserif", 70)
@@ -615,6 +671,10 @@ def main():
         for butt_fly in butt_flys:
             butt_fly.update(farticles)
             butt_fly.draw(WIN)
+            
+        for turd in turd_streakers:
+            turd.update(farticles)
+            turd.draw(WIN)
         
         for powerup in powerups:
             powerup.update()
@@ -666,6 +726,9 @@ def main():
             
         for butt_fly in butt_flys:
             butt_fly.draw(WIN)
+            
+        for turd in turd_streakers:
+            turd.draw(WIN)
             
         for powerup in powerups:
             powerup.draw(WIN)
@@ -726,7 +789,7 @@ def main():
                 score_notifications = spawn_score(score_notifications[:],player)
                 
             if collide(finger, player) and lost == False:
-                kill_all_sfx(butt_flys, powerups)
+                kill_all_sfx(butt_flys, powerups, turd_streakers)
                 play_endgame_music()
                 play_endgame = True
                 lost = True
@@ -737,13 +800,31 @@ def main():
                     bullets.remove(bullet)
                     finger.collision = True
         
+        for turd in turd_streakers[:]:
+            if turd.x <= 0 - turd.get_width() - 100 or (turd.collision == True and turd.image_timer > 60):
+                turd.kill_audio()
+                turd_streakers.remove(turd)
+                
+            if collide(turd, player) and lost == False:
+                kill_all_sfx(butt_flys, powerups, turd_streakers)
+                play_endgame_music()
+                play_endgame = True
+                lost = True
+                
+            for bullet in bullets[:]:
+                if collide(bullet,turd) and turd.collision == False:
+                    turd.kill_audio()
+                    turd.collisionSFX.play()
+                    turd.collision = True
+                    bullets.remove(bullet)
+                
         for butt_fly in butt_flys[:]:
             if butt_fly.x <= 0 - butt_fly.get_width():
                 butt_fly.kill_audio()
                 butt_flys.remove(butt_fly)
             
             if collide(butt_fly,player) and butt_fly.collision == False  and lost == False:
-                kill_all_sfx(butt_flys, powerups)
+                kill_all_sfx(butt_flys, powerups, turd_streakers)
                 play_endgame_music()
                 play_endgame = True
                 lost = True
@@ -785,7 +866,8 @@ def main():
             
         fingers = spawn_fingers(fingers[:])
         
-        if level > 1: butt_flys = spawn_butt_flys(butt_flys[:])
+        if level > 1: spawn_butt_flys(butt_flys)
+        if level > 0: spawn_turdstreaker(turd_streakers)
 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_UP] and lost == False:
