@@ -4,6 +4,8 @@ import time
 import random
 import os
 import math
+import csv
+import pygame_textinput
 
 # Initializations
 pygame.font.init()
@@ -14,6 +16,7 @@ GROUND = 700 - 55
 WIDTH, HEIGHT = 1333, 750
 GAME_SPEED = .75
 FPS = 60
+HIGH_SCORE_FILE = "high_scores.dat"
 
 # Define window
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -129,6 +132,7 @@ POWERUP_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","powerup.wav"))
 POWERUP_FX.set_volume(.3)
 TURD_HIT_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","turd_pop.wav"))
 TURD_WEE_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","turd_wee.wav"))
+INTERFACE_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","interface.wav"))
 
 class GameObject: # GameCharacter superclass
     def __init__(self, x, y, health = 100, angle = 0, collision = False, direction = "up", image_counter = 0, playing_audio = False, draw_this_object = True):
@@ -276,7 +280,7 @@ class TurdStreaker(GameObject):
             self.image_counter += 1
             
             if self.image_counter<=30:
-                self.image = pygame.transform.scale(TURD_STREAKER_PIC,(self.get_width()+ 1, self.get_height()+ 1))
+                self.image = pygame.transform.scale(TURD_STREAKER_PIC,(self.get_width()+ 3, self.get_height()+ 1))
                 self.x -= self.velocity
             elif self.image_counter < 60:
                 self.draw_this_object = False
@@ -553,6 +557,14 @@ class Background: # handles background parallax effect
             self.top_x1 = 0
             self.top_x2 = 1500
 
+class high_score:
+    def __init__(self):
+        self.name = None
+        self.score = None
+
+def sort_by_score(hscore):
+    return(int(hscore.score))
+
 def collide(obj1, obj2): # detects object collision
     offset_x = int(obj2.x - obj1.x)
     offset_y = int(obj2.y - obj1.y)
@@ -627,6 +639,42 @@ def spawn_turdstreaker(turd_streakers):
         new_turd.center_x = new_turd.x
         turd_streakers.append(new_turd)
 
+def get_high_score(high_scores):
+    if len(high_scores) > 0:    
+        # Sort High Scores for comparison
+        high_scores.sort(key=sort_by_score)
+        return int(high_scores[0].score)
+    else:
+        return 0
+        
+def get_all_high_scores(high_scores):
+    # First read all existing high-scores
+    with open(HIGH_SCORE_FILE,"r") as file:
+        reader = csv.reader(file)
+        for row in reader:
+            tempScore = high_score()
+            tempScore.name,tempScore.score = row[0],row[1]
+            high_scores.append(tempScore)
+    file.close()
+    return high_scores
+    
+def check_high_score(cur_score, high_scores):
+    
+    if len(high_scores)<10: return True
+    elif cur_score > int(high_scores[0].score): 
+        high_scores[10].remove
+        return True
+    else: return False
+
+def update_high_score_file(high_scores):
+    high_scores.sort(key=sort_by_score)
+    with open(HIGH_SCORE_FILE,"w+") as file:
+        writer = csv.writer(file)
+        for score in high_scores:
+            tempRow = [score.name,score.score]
+            writer.writerow(tempRow)
+    file.close()
+
 def main():
     
     global GAME_SPEED
@@ -647,6 +695,9 @@ def main():
     player_sfx_channel = None
     farticles = []
     turd_streakers = []
+    cur_high_score = 0
+    high_scores = []
+    new_high_score = False
     
     lost_font = pygame.font.SysFont("connectionserif", 40)
     level_font = pygame.font.SysFont("connectionserif", 70)
@@ -655,6 +706,9 @@ def main():
     player = Player(WIDTH/2 - STATIC_BIRD.get_width()/2,GROUND)
     background =  Background(BG,BG_MID,BG_TOP)
     clock = pygame.time.Clock()
+    
+    high_scores = get_all_high_scores(high_scores)
+    cur_high_score = get_high_score(high_scores)
 
     def redraw_window():
         nonlocal level_timer
@@ -715,6 +769,12 @@ def main():
         WIN.blit(score_label,(WIDTH - score_label.get_width() - score_value.get_width() - 20, 45))
         WIN.blit(score_value, (WIDTH - score_value.get_width() - 10, 45))
         
+        # Draw Current High Score
+        score_label = score_font.render("High Score: ", 1, (255,255,255))
+        score_value = score_font.render(str(cur_high_score), 1, (255,255,255))
+        WIN.blit(score_label,(20, 15))
+        WIN.blit(score_value, (score_label.get_width() + 30, 15))
+        
         pygame.display.update()
         
     def draw_endgame():
@@ -740,15 +800,23 @@ def main():
             notification.update(player.y)
             notification.draw(WIN)
         
+        # Draw Score
         score_label = score_font.render("Score: ", 1 , (255,255,255))
         score_value = score_font.render(str(score), 1, (255,255,255))
         WIN.blit(score_label,(WIDTH - score_label.get_width() - score_value.get_width() - 20, 15))
         WIN.blit(score_value, (WIDTH - score_value.get_width() - 10, 15))
         
+        # Draw Bullet Count
         score_label = score_font.render("Bullets: ", 1, (255,255,255))
         score_value = score_font.render(str(player.bullets), 1, (255,255,255))
         WIN.blit(score_label,(WIDTH - score_label.get_width() - score_value.get_width() - 20, 45))
         WIN.blit(score_value, (WIDTH - score_value.get_width() - 10, 45))
+        
+        # Draw Current High Score
+        score_label = score_font.render("High Score: ", 1, (255,255,255))
+        score_value = score_font.render(str(cur_high_score), 1, (255,255,255))
+        WIN.blit(score_label,(20, 15))
+        WIN.blit(score_value, (score_label.get_width() + 30, 15))
         
         lost_label = lost_font.render("You pulled my finger", 1 , (255,255,255))
         WIN.blit(lost_label,(WIDTH/2 - lost_label.get_width()/2, HEIGHT/2 - lost_label.get_height()))
@@ -771,11 +839,15 @@ def main():
         if lost:
             player.state = "death"
             
+            new_high_score = check_high_score(score,high_scores)
+            
             while play_endgame:
                 draw_endgame()
                 for event in pygame.event.get():
                     if event.type == GAME_OVER:
                         play_endgame =  False
+            
+            if new_high_score: enter_high_score(score,high_scores)
             
             main_menu()
         
@@ -861,6 +933,9 @@ def main():
             level_timer = 120
             GAME_SPEED += .25
         
+        if score > cur_high_score:
+            cur_high_score = score
+        
         for event in pygame.event.get():
             if event.type == pygame.QUIT: quit()
             
@@ -882,6 +957,7 @@ def main():
             if fart_timer > 0 and fart_timer != 0: fart_timer -= 1
         elif keys[pygame.K_q]:
             kill_all_sfx(butt_flys, powerups)
+            INTERFACE_FX.play()
             main_menu()
         elif keys[pygame.K_SPACE]:
             if player.bullets > 0 and player.cooldown == 0: player.shoot(bullets)
@@ -891,6 +967,121 @@ def main():
             
         if lost == False: redraw_window()
 
+def enter_high_score(score, high_scores):
+    global FPS
+    run = True
+    score_font = pygame.font.SysFont("connectionserif",25)
+    clock = pygame.time.Clock()
+    user_input = pygame_textinput.TextInput()
+    
+    while run:
+        
+        clock.tick(FPS)
+        
+        WIN.blit(BG,(0,0))
+        
+        instruction_label = score_font.render("Enter your name:", 1, (255,255,255))
+        WIN.blit(instruction_label,(WIDTH/2 - instruction_label.get_width()/2, 100))
+    
+        events = pygame.event.get()
+         
+        for event in events:
+            if event.type ==  pygame.QUIT:
+                run = False
+        
+        if user_input.update(events):
+            new_high_score = high_score()
+            new_high_score.name = user_input.get_text()
+            new_high_score.score = score
+            high_scores.append(new_high_score)
+            update_high_score_file(high_scores)
+            run = False
+        
+        WIN.blit(user_input.get_surface(),(WIDTH/2 - user_input.get_surface().get_width()/2, HEIGHT/2))
+        
+        pygame.display.update() 
+
+def high_score_screen():
+    global FPS
+    run = True
+    current_y = None
+    y_delta = 30
+    clock = pygame.time.Clock()
+    left_x_bound = None
+    right_x_bound = ModuleNotFoundError
+    score_font = pygame.font.SysFont("connectionserif",25)
+    header_font = pygame.font.SysFont("connectionserif", 70)
+    high_scores = []
+    clear_prompt = False
+    delete_high_scores = False
+    
+    high_scores = get_all_high_scores(high_scores)
+    
+    while run:
+        
+        clock.tick(FPS)
+        
+        WIN.blit(BG,(0,0))
+        
+        if clear_prompt:
+            
+            instruction_label = score_font.render("<Press Y to confirm, N to cancel>", 1, (255,255,255))
+            WIN.blit(instruction_label,(WIDTH/2 - instruction_label.get_width()/2, HEIGHT - 40))
+            
+            delete_prompt_label = header_font.render("Permanently delete", 1, (255,255,255))
+            WIN.blit(delete_prompt_label,(WIDTH/2 - delete_prompt_label.get_width()/2,HEIGHT/2 - delete_prompt_label.get_height()))
+            delete_prompt_label2 = header_font.render("all High-Scores?", 1, (255,255,255))
+            WIN.blit(delete_prompt_label2,(WIDTH/2 - delete_prompt_label2.get_width()/2,HEIGHT/2 + 10))
+            
+            if delete_high_scores:
+                high_scores.clear()
+                update_high_score_file(high_scores)
+                clear_prompt = False
+                delete_high_scores = False
+        
+        else:
+            
+            if len(high_scores) > 0:
+                instruction_label = score_font.render("<Press C to clear High-Scores>", 1, (255,255,255))
+                WIN.blit(instruction_label,(WIDTH/2 - instruction_label.get_width()/2, HEIGHT - 40))
+            
+            name_header = header_font.render("Name", 1, (255,255,255))
+            score_header = header_font.render("Score", 1, (255,255,255))
+            left_x_bound = WIDTH/2 - (name_header.get_width()/2 + 100 + score_header.get_width()/2)
+            right_x_bound = WIDTH/2 + (name_header.get_width()/2 + 100 + score_header.get_width()/2)
+            WIN.blit(name_header,(left_x_bound,100))
+            WIN.blit(score_header,(right_x_bound - score_header.get_width(),100))
+            pygame.draw.line(WIN,(255,255,255),(left_x_bound,100+score_header.get_height()+2),(right_x_bound,100+score_header.get_height()+2),5)
+            
+            current_y = 100+score_header.get_height() + 17 # Includes line weight + buffer
+            
+            for high_score in high_scores:
+                name = score_font.render(high_score.name, 1, (255,255,255))
+                score = score_font.render(high_score.score, 1, (255,255,255))
+                WIN.blit(name,(left_x_bound,current_y))
+                WIN.blit(score,(right_x_bound - score.get_width(),current_y))
+                current_y += y_delta
+        
+        for event in pygame.event.get():
+            if event.type ==  pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    INTERFACE_FX.play()
+                    main_menu()
+                if event.key == pygame.K_c:
+                    if len(high_scores) > 0:
+                        INTERFACE_FX.play()
+                        if clear_prompt == False: clear_prompt = True
+                if event.key == pygame.K_y:
+                    INTERFACE_FX.play()
+                    if clear_prompt == True: delete_high_scores = True
+                if event.key == pygame.K_n:
+                    INTERFACE_FX.play()
+                    if clear_prompt == True: clear_prompt = False
+                        
+        pygame.display.update()  
+             
 def main_menu():
     
     global GAME_SPEED
@@ -912,6 +1103,8 @@ def main_menu():
     
     def draw_instructions():
         menu_label = menu_font.render("<Press the SPACEBAR to begin>", 1, (255,255,255))
+        WIN.blit(menu_label,(WIDTH/2 - menu_label.get_width()/2, HEIGHT - menu_label.get_height() - 70))
+        menu_label = menu_font.render("<Press S to view High Scores>", 1, (255,255,255))
         WIN.blit(menu_label,(WIDTH/2 - menu_label.get_width()/2, HEIGHT - menu_label.get_height() - 40))
         menu_label = menu_font.render("<Press Q to Quit>", 1, (255,255,255))
         WIN.blit(menu_label,(WIDTH/2 - menu_label.get_width()/2, HEIGHT - menu_label.get_height() - 10))
@@ -935,6 +1128,7 @@ def main_menu():
                 run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE and intro_timer > 120:
+                    INTERFACE_FX.play()
                     pygame.mixer.music.stop()
                     pygame.mixer.music.unload()
                     
@@ -946,6 +1140,9 @@ def main_menu():
                     main()
                 if event.key == pygame.K_q:
                     run = False
+                if event.key == pygame.K_s:
+                    INTERFACE_FX.play()
+                    high_score_screen()
                     
     quit()
     
