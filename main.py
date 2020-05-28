@@ -27,77 +27,86 @@ GAME_OVER = pygame.USEREVENT + 1
 
 # Load Images
 POWERUP_AVIALABLE = [
-    pygame.image.load(os.path.join("assets/images/powerup/available","powerupa1.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/powerup/available","powerupa2.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/powerup/available","powerupa3.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/powerup/available","powerupa4.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/powerup/available","powerupa5.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/powerup/available","powerupa6.png")).convert_alpha()
+    pygame.image.load(os.path.join("./assets/images/powerup/available","powerupa1.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/powerup/available","powerupa2.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/powerup/available","powerupa3.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/powerup/available","powerupa4.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/powerup/available","powerupa5.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/powerup/available","powerupa6.png")).convert_alpha()
 ]
 POWERUP_COLLIDE = [
-    pygame.image.load(os.path.join("assets/images/powerup/collide","powerupb1.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/powerup/collide","powerupb2.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/powerup/collide","powerupb3.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/powerup/collide","powerupb4.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/powerup/collide","powerupb5.png")).convert_alpha()
+    pygame.image.load(os.path.join("./assets/images/powerup/collide","powerupb1.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/powerup/collide","powerupb2.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/powerup/collide","powerupb3.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/powerup/collide","powerupb4.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/powerup/collide","powerupb5.png")).convert_alpha()
 ]
 BUTT_FLY_ALIVE = [
-    pygame.image.load(os.path.join("assets/images/butt_fly","static.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/butt_fly","flap1.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/butt_fly","flap2.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/butt_fly","flap3.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/butt_fly","flap4.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/butt_fly","flap5.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/butt_fly","flap6.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/butt_fly","flap7.png")).convert_alpha()
+    pygame.image.load(os.path.join("./assets/images/butt_fly","static.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/butt_fly","flap1.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/butt_fly","flap2.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/butt_fly","flap3.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/butt_fly","flap4.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/butt_fly","flap5.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/butt_fly","flap6.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/butt_fly","flap7.png")).convert_alpha()
 ]
 BUTT_FLY_DEAD = [
-    pygame.image.load(os.path.join("assets/images/butt_fly","death1.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/butt_fly","death2.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/butt_fly","death3.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/butt_fly","death4.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/butt_fly","death5.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/butt_fly","death6.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/butt_fly","death7.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/butt_fly","death8.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/butt_fly","death9.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/butt_fly","death10.png")).convert_alpha()
+    pygame.image.load(os.path.join("./assets/images/butt_fly","death1.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/butt_fly","death2.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/butt_fly","death3.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/butt_fly","death4.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/butt_fly","death5.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/butt_fly","death6.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/butt_fly","death7.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/butt_fly","death8.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/butt_fly","death9.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/butt_fly","death10.png")).convert_alpha()
 ]
 BULLET = [
-    pygame.image.load(os.path.join("assets/images/bullet","bullet1.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/bullet","bullet2.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/bullet","bullet3.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/bullet","bullet4.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/bullet","bullet5.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/bullet","bullet6.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/bullet","bullet7.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/bullet","bullet8.png")).convert_alpha()
+    pygame.image.load(os.path.join("./assets/images/bullet","bullet1.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/bullet","bullet2.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/bullet","bullet3.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/bullet","bullet4.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/bullet","bullet5.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/bullet","bullet6.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/bullet","bullet7.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/bullet","bullet8.png")).convert_alpha()
 ]
 FLAPPING_BIRD = [
-    pygame.image.load(os.path.join("assets/images","flap_1.gif")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images","flap_2.gif")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images","flap_3.gif")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images","flap_4.gif")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images","flap_5.gif")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images","flap_6.gif")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images","flap_7.gif")).convert_alpha()
+    pygame.image.load(os.path.join("./assets/images","flap1.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images","flap2.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images","flap3.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images","flap4.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images","flap5.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images","flap6.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images","flap7.png")).convert_alpha()
+    ]
+FLAPPING_FARTS = [
+    pygame.image.load(os.path.join("./assets/images","flap1fart.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images","flap2fart.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images","flap3fart.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images","flap4fart.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images","flap5fart.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images","flap6fart.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images","flap7.png")).convert_alpha()
     ]
 INTRO_FOG_ANIMATE = [
-    pygame.image.load(os.path.join("assets/images/intro","fog_animate1.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/intro","fog_animate2.png")).convert_alpha(),
-    pygame.image.load(os.path.join("assets/images/intro","fog_animate3.png")).convert_alpha()
+    pygame.image.load(os.path.join("./assets/images/intro","fog_animate1.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/intro","fog_animate2.png")).convert_alpha(),
+    pygame.image.load(os.path.join("./assets/images/intro","fog_animate3.png")).convert_alpha()
 ]
-INTRO_FOG = pygame.image.load(os.path.join("assets/images/intro","fog.png")).convert_alpha()
-INTRO_BIRD = pygame.image.load(os.path.join("assets/images/intro","bird.png")).convert_alpha()
-INTRO_RAYS = pygame.image.load(os.path.join("assets/images/intro","rays.png")).convert_alpha()
-INTRO_TITLE = pygame.image.load(os.path.join("assets/images/intro","title.png")).convert_alpha()
-BG = pygame.image.load(os.path.join("assets/images","bg_3.png")).convert()
-BG_MID = pygame.image.load(os.path.join("assets/images","bg_2.png")).convert_alpha()
-BG_TOP = pygame.image.load(os.path.join("assets/images","bg_1.gif")).convert_alpha()
-STATIC_BIRD = pygame.image.load(os.path.join("assets/images","static.gif")).convert_alpha()
-DEAD_BIRD = pygame.image.load(os.path.join("assets/images", "death.png")).convert_alpha()
-FINGER_PIC = pygame.image.load(os.path.join("assets/images","finger.gif")).convert_alpha()
-TURD_STREAKER_PIC = pygame.image.load(os.path.join("assets/images","turd_streaker.png")).convert_alpha()
+INTRO_FOG = pygame.image.load(os.path.join("./assets/images/intro","fog.png")).convert_alpha()
+INTRO_BIRD = pygame.image.load(os.path.join("./assets/images/intro","bird.png")).convert_alpha()
+INTRO_RAYS = pygame.image.load(os.path.join("./assets/images/intro","rays.png")).convert_alpha()
+INTRO_TITLE = pygame.image.load(os.path.join("./assets/images/intro","title.png")).convert_alpha()
+BG = pygame.image.load(os.path.join("./assets/images","bg_3.png")).convert()
+BG_MID = pygame.image.load(os.path.join("./assets/images","bg_2.png")).convert_alpha()
+BG_TOP = pygame.image.load(os.path.join("./assets/images","bg_1.png")).convert_alpha()
+STATIC_BIRD = pygame.image.load(os.path.join("./assets/images","static.png")).convert_alpha()
+DEAD_BIRD = pygame.image.load(os.path.join("./assets/images", "death.png")).convert_alpha()
+FINGER_PIC = pygame.image.load(os.path.join("./assets/images","finger.png")).convert_alpha()
+TURD_STREAKER_PIC = pygame.image.load(os.path.join("./assets/images","turd_streaker.png")).convert_alpha()
 
 # Particle Color Options
 FARTICLE_COLORS = [
@@ -115,24 +124,24 @@ POOP_COLORS = [
 
 # Load Audio Fx
 HIGH_FART_FX = [
-    pygame.mixer.Sound(os.path.join("assets/audio/sfx","fart_1.wav")),
-    pygame.mixer.Sound(os.path.join("assets/audio/sfx","fart_3.wav"))
+    pygame.mixer.Sound(os.path.join("./assets/audio/sfx","fart_1.wav")),
+    pygame.mixer.Sound(os.path.join("./assets/audio/sfx","fart_3.wav"))
     ]
 LOW_FART_FX = [
-    pygame.mixer.Sound(os.path.join("assets/audio/sfx","fart_2.wav")),
-    pygame.mixer.Sound(os.path.join("assets/audio/sfx","fart_4.wav")),
-    pygame.mixer.Sound(os.path.join("assets/audio/sfx","fart_5.wav")),
+    pygame.mixer.Sound(os.path.join("./assets/audio/sfx","fart_2.wav")),
+    pygame.mixer.Sound(os.path.join("./assets/audio/sfx","fart_4.wav")),
+    pygame.mixer.Sound(os.path.join("./assets/audio/sfx","fart_5.wav")),
     ]
-SHOOT_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","shoot.wav"))
-FINGER_HIT_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","finger_hit.wav"))
-BUTTFLY_HIT_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","buttfly_hit.wav"))
-RELOAD_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","reload.wav"))
-BUTT_BUZZ_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","buzz.wav"))
-POWERUP_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","powerup.wav"))
+SHOOT_FX = pygame.mixer.Sound(os.path.join("./assets/audio/sfx","shoot.wav"))
+FINGER_HIT_FX = pygame.mixer.Sound(os.path.join("./assets/audio/sfx","finger_hit.wav"))
+BUTTFLY_HIT_FX = pygame.mixer.Sound(os.path.join("./assets/audio/sfx","buttfly_hit.wav"))
+RELOAD_FX = pygame.mixer.Sound(os.path.join("./assets/audio/sfx","reload.wav"))
+BUTT_BUZZ_FX = pygame.mixer.Sound(os.path.join("./assets/audio/sfx","buzz.wav"))
+POWERUP_FX = pygame.mixer.Sound(os.path.join("./assets/audio/sfx","powerup.wav"))
 POWERUP_FX.set_volume(.3)
-TURD_HIT_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","turd_pop.wav"))
-TURD_WEE_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","turd_wee.wav"))
-INTERFACE_FX = pygame.mixer.Sound(os.path.join("assets/audio/sfx","interface.wav"))
+TURD_HIT_FX = pygame.mixer.Sound(os.path.join("./assets/audio/sfx","turd_pop.wav"))
+TURD_WEE_FX = pygame.mixer.Sound(os.path.join("./assets/audio/sfx","turd_wee.wav"))
+INTERFACE_FX = pygame.mixer.Sound(os.path.join("./assets/audio/sfx","interface.wav"))
 
 class GameObject: # GameCharacter superclass
     def __init__(self, x, y, health = 100, angle = 0, collision = False, direction = "up", image_counter = 0, playing_audio = False, draw_this_object = True):
@@ -150,6 +159,8 @@ class GameObject: # GameCharacter superclass
         self.collisionSFX = None
         self.angle = angle
         self.draw_this_object = draw_this_object
+        self.fart_image = None
+        self.state = None
         
     def kill_audio(self):
         self.playing_audio = False
@@ -161,7 +172,9 @@ class GameObject: # GameCharacter superclass
             if self.image != None and self.draw_this_object: window.blit(self.image, (self.x, self.y))
         else:
             if self.image != None and self.draw_this_object: window.blit(pygame.transform.rotate(self.image,self.angle),(self.x, self.y))
-        
+        if self.state == "flying":
+            if self.fart_image != None and self.draw_this_object: window.blit(self.fart_image, (self.x, self.y))
+            
     def get_width(self):
         return self.image.get_width()
         
@@ -287,7 +300,6 @@ class TurdStreaker(GameObject):
                 new_farticle = Farticle(self.x + self.get_width()/2, self.y + self.get_height()/2, random.randint(0, 40)/10 - 2, random.randint(0,40)/10 - 2, int(random.randint(5,15)),random.choice(POOP_COLORS))
                 farticles.append(new_farticle)
             
-        
 class ButtFly(GameObject):
     def __init__(self, x, y):
         super().__init__(x, y)
@@ -342,6 +354,7 @@ class Player(GameObject):
         self.state = state
         self.velocity = 0
         self.SFX = SHOOT_FX
+        self.fart_image = None
         
     def shoot(self, bullets):
         if self.bullets == 0: return
@@ -358,6 +371,7 @@ class Player(GameObject):
         if self.state == "flying":
             # set image
             self.image = FLAPPING_BIRD[(self.image_counter//5)-1]
+            self.fart_image = FLAPPING_FARTS[(self.image_counter//5)-1]
             self.mask = pygame.mask.from_surface(self.image)
             self.image_counter = (self.image_counter % 30) + 1
             
@@ -627,7 +641,7 @@ def spawn_score(score_notifications, player): # shows floating score indicator
 def play_endgame_music(): #initiates endgame music
     pygame.mixer.music.stop()
     pygame.mixer.music.unload()
-    pygame.mixer.music.load(os.path.join("assets/audio/music","game_over.wav"))
+    pygame.mixer.music.load(os.path.join("./assets/audio/music","game_over.wav"))
     pygame.mixer.music.play()
     pygame.mixer.music.set_endevent(GAME_OVER)
 
@@ -643,7 +657,7 @@ def get_high_score(high_scores):
     if len(high_scores) > 0:    
         # Sort High Scores for comparison
         high_scores.sort(key=sort_by_score)
-        return int(high_scores[0].score)
+        return int(high_scores[len(high_scores)-1].score)
     else:
         return 0
         
@@ -656,13 +670,14 @@ def get_all_high_scores(high_scores):
             tempScore.name,tempScore.score = row[0],row[1]
             high_scores.append(tempScore)
     file.close()
+    high_scores.sort(key=sort_by_score, reverse=True)
     return high_scores
     
 def check_high_score(cur_score, high_scores):
     
     if len(high_scores)<10: return True
     elif cur_score > int(high_scores[0].score): 
-        high_scores[10].remove
+        del high_scores[0]
         return True
     else: return False
 
@@ -990,6 +1005,7 @@ def enter_high_score(score, high_scores):
                 run = False
         
         if user_input.update(events):
+            INTERFACE_FX.play()
             new_high_score = high_score()
             new_high_score.name = user_input.get_text()
             new_high_score.score = score
@@ -1040,6 +1056,9 @@ def high_score_screen():
                 delete_high_scores = False
         
         else:
+            
+            instruction_label = score_font.render("<Press Q to Exit>", 1, (255,255,255))
+            WIN.blit(instruction_label,(WIDTH/2 - instruction_label.get_width()/2, HEIGHT - 70))
             
             if len(high_scores) > 0:
                 instruction_label = score_font.render("<Press C to clear High-Scores>", 1, (255,255,255))
@@ -1097,7 +1116,7 @@ def main_menu():
     pygame.mixer.music.unload()
     
     # load and play menu music
-    pygame.mixer_music.load(os.path.join("assets/audio/music","main_menu.wav"))
+    pygame.mixer_music.load(os.path.join("./assets/audio/music","main_menu.wav"))
     pygame.mixer.music.set_volume(.5)
     pygame.mixer.music.play(-1)
     
@@ -1132,7 +1151,7 @@ def main_menu():
                     pygame.mixer.music.stop()
                     pygame.mixer.music.unload()
                     
-                    pygame.mixer.music.load(os.path.join("assets/audio/music","main_game.wav"))
+                    pygame.mixer.music.load(os.path.join("./assets/audio/music","main_game.wav"))
                     pygame.mixer.music.play(-1)
                     
                     play_endgame = False
