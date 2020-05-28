@@ -971,7 +971,7 @@ def main():
                     fart_timer=random.randint(60,120)
             if fart_timer > 0 and fart_timer != 0: fart_timer -= 1
         elif keys[pygame.K_q]:
-            kill_all_sfx(butt_flys, powerups)
+            kill_all_sfx(butt_flys, powerups, turd_streakers)
             INTERFACE_FX.play()
             main_menu()
         elif keys[pygame.K_SPACE]:
